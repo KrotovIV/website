@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if list  == 'ol' %}
+<ol>
+    {% for job in spisok %}
+    <li>{{job}}</li>
+    {% endfor %}
+</ol>
+{% elif list  == 'ul' %}
+<ul>
+    {% for job in spisok %}
+    <li>{{job}}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<div>Неверный параметр list</div>
+{% endif %}
+
+{% endblock %}
