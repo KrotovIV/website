@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from data import db_session
 from forms.registerform import RegisterForm
 from flask_login import LoginManager
@@ -10,6 +10,7 @@ from flask import render_template
 from flask import request
 from flask import make_response
 from flask import session
+from data import db_session, news_api
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -91,8 +92,13 @@ def reqister():
         return redirect(login)
     return render_template('register.html', title='Регистрация', form=form)
 
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 def main():
+    db_session.global_init("db/blogs.db")
+    app.register_blueprint(news_api.blueprint) #подключение rest-api
     app.run()
 
 
